@@ -36,19 +36,22 @@ const AuthForm = ({ type } : {type : FormType}) =>{
         },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>){
-        try { 
-            if(type === 'sign-up'){
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        try {
+            // Simulate async API call
+            await new Promise((resolve) => setTimeout(resolve, 1200));
+
+            // Simulate success response
+            if (type === 'sign-up') {
                 toast.success("Account Created successfully. Please Sign in.");
-                router.push("/sign-in")
+                router.push("/sign-in");
             } else {
                 toast.success("Sign in successfully.");
-                router.push("/")
+                router.push("/sign-up");
             }
-
-        } catch(error) {
+        } catch (error) {
             console.log(error);
-            toast.error(`There was an error: ${error}`)
+            toast.error(`There was an error: ${error}`);
         }
     }
 
@@ -95,7 +98,13 @@ const AuthForm = ({ type } : {type : FormType}) =>{
                         />
 
                     <Button className="btn" 
-                            type="submit">{isSignIn ? "Sign in" : "Create an Account"}</Button> 
+                            type="submit">
+                    <Link 
+                        href={!isSignIn ? '/sign-up' : '/'} 
+                        className="font-bold text-user-primary ml-1"
+                    >
+                        {!isSignIn ? "Sign Up" : "Sign in"}
+                    </Link></Button> 
                 </form>
 
                 <p className="text-center">
@@ -104,7 +113,7 @@ const AuthForm = ({ type } : {type : FormType}) =>{
                         href={!isSignIn ? '/sign-in' : '/sign-up'} 
                         className="font-bold text-user-primary ml-1"
                     >
-                        {!isSignIn ? "Sign in" : "Sign Up"}
+                        {!isSignIn ? "Sign in" : "Sign up"}
                     </Link>
                 </p>
             </Form>
